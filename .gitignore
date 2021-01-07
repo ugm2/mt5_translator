@@ -130,3 +130,15 @@ dmypy.json
 
 # Trainer data
 trainer/data
+
+# Models
+trainer/outputs
+
+# Offline runs
+trainer/wandb
+
+# Runs
+trainer/runs
+
+# Noted results
+trainer/results.txt

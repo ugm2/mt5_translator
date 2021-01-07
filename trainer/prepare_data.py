@@ -1,40 +1,45 @@
 import os
 import pandas as pd
 
-def prepare_translation_datasets(data_path):
-    with open(os.path.join(data_path, "train.trg"), "r", encoding="utf-8") as f:
-        sinhala_text = f.readlines()
-        sinhala_text = [text.strip("\n") for text in sinhala_text]
+def load_file(data_path, filename, max_lines=10000000000):
+    text_lines = []
+    with open(os.path.join(data_path, filename), "r", encoding="utf-8") as f:
+        for i, line in enumerate(f):
+            text_lines += [line.strip("\n")]
+            if i+1==max_lines: break
+    return text_lines
 
-    with open(os.path.join(data_path, "train.src"), "r") as f:
-        english_text = f.readlines()
-        english_text = [text.strip("\n") for text in english_text]
+def prepare_translation_datasets(data_path, source, target, max_train_lines=1000000):
+    target_text = load_file(data_path, "train.trg", max_train_lines)
+
+    source_text = load_file(data_path, "train.src", max_train_lines)
 
     data = []
-    for sinhala, english in zip(sinhala_text, english_text):
-        data.append(["translate sinhala to english", sinhala, english])
-        data.append(["translate english to sinhala", english, sinhala])
+    for t, s in zip(target_text, source_text):
+        data.append([f"translate {target} to {source}", t, s])
+        data.append([f"translate {source} to {target}", s, t])
 
     train_df = pd.DataFrame(data, columns=["prefix", "input_text", "target_text"])
+    print("Training length: ", len(train_df))
 
-    with open(os.path.join(data_path, "test.trg"), "r", encoding="utf-8") as f:
-        sinhala_text = f.readlines()
-        sinhala_text = [text.strip("\n") for text in sinhala_text]
+    target_text = load_file(data_path, "test.trg")
 
-    with open(os.path.join(data_path, "test.src"), "r") as f:
-        english_text = f.readlines()
-        english_text = [text.strip("\n") for text in english_text]
+    source_text = load_file(data_path, "test.src")
 
     data = []
-    for sinhala, english in zip(sinhala_text, english_text):
-        data.append(["translate sinhala to english", sinhala, english])
-        data.append(["translate english to sinhala", english, sinhala])
+    for t, s in zip(target_text, source_text):
+        data.append([f"translate {target} to {source}", t, s])
+        data.append([f"translate {source} to {target}", s, t])
 
     eval_df = pd.DataFrame(data, columns=["prefix", "input_text", "target_text"])
+    print("Test length: ", len(eval_df))
 
     return train_df, eval_df
 
-train_df, eval_df = prepare_translation_datasets("data/eng-spa")
+train_df, eval_df = prepare_translation_datasets("data/eng-spa",
+                                                 source="english",
+                                                 target="spanish",
+                                                 max_train_lines=10000)
 
-# train_df.to_csv("data/eng-spa/train.tsv", sep="\t")
-# eval_df.to_csv("data/eng-spa/eval.tsv", sep="\t")
+train_df.to_csv("data/eng-spa/train.tsv", sep="\t")
+eval_df.to_csv("data/eng-spa/eval.tsv", sep="\t")
