@@ -22,6 +22,9 @@ eval_df = pd.read_csv("data/eng-spa/eval.tsv", sep="\t").astype(str)
 target_truth = [eval_df.loc[eval_df["prefix"] == f"translate {source} to {target}"]["target_text"].tolist()]
 to_target = eval_df.loc[eval_df["prefix"] == f"translate {source} to {target}"]["input_text"].tolist()
 
-print(to_target[:2])
-target_preds = model.predict(to_target[:2])
+# print(to_target[:2])
+sentences = [
+    "¿Podemos controlar nuestros sueños?"
+]
+target_preds = model.predict(sentences)
 print(target_preds)

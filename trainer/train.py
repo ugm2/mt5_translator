@@ -14,7 +14,7 @@ train_df["prefix"] = ""
 eval_df["prefix"] = ""
 
 model_args = T5Args()
-model_args.max_seq_length = 96
+model_args.max_seq_length = 80
 model_args.train_batch_size = 10
 model_args.eval_batch_size = 10
 model_args.num_train_epochs = 1
@@ -29,9 +29,9 @@ model_args.reprocess_input_data = True
 model_args.overwrite_output_dir = True
 model_args.preprocess_inputs = False
 model_args.num_return_sequences = 1
-model_args.wandb_project = "MT5 Sinhala-English Translation"
+model_args.wandb_project = "MT5 English-Spanish Translation"
 
-model = T5Model("mt5", "google/mt5-large", args=model_args)
+model = T5Model("mt5", "google/mt5-base", args=model_args)
 
 # Train the model
 model.train_model(train_df, eval_data=eval_df)

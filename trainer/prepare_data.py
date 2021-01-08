@@ -39,7 +39,7 @@ def prepare_translation_datasets(data_path, source, target, max_train_lines=1000
 train_df, eval_df = prepare_translation_datasets("data/eng-spa",
                                                  source="english",
                                                  target="spanish",
-                                                 max_train_lines=10000)
+                                                 max_train_lines=500000)
 
 train_df.to_csv("data/eng-spa/train.tsv", sep="\t")
 eval_df.to_csv("data/eng-spa/eval.tsv", sep="\t")
