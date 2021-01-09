@@ -11,6 +11,7 @@ transformers_logger.setLevel(logging.WARNING)
 
 model_args = T5Args()
 model_args.max_length = 512
+model_args.min_length = 0
 model_args.length_penalty = 1
 model_args.num_beams = 10
 
