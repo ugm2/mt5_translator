@@ -1,0 +1,1 @@
+streamlit run interface/translator_interface.py --server.port 5002

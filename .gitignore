@@ -133,6 +133,7 @@ trainer/data
 
 # Models
 trainer/outputs
+trainer/models
 
 # Offline runs
 trainer/wandb

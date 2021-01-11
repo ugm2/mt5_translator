@@ -25,7 +25,8 @@ to_target = eval_df.loc[eval_df["prefix"] == f"translate {source} to {target}"][
 
 # print(to_target[:2])
 sentences = [
-    "¿Podemos controlar nuestros sueños?"
+    "Me gusta tocar muchos instrumentos. Adoro la música",
+    "I like to play many instruments. I love music"
 ]
 target_preds = model.predict(sentences)
 print(target_preds)
